@@ -4,6 +4,7 @@ git clone [https://github.com/mnisenbaum/setup-dev.git](https://github.com/mnise
 # Acesse a pasta do projeto
 cd setup-dev
 📊 Stack de Ferramentas InstaladasCategoriaTecnologias / BibliotecasDescriçãoLinguagens BasePython 3, Node.js (LTS), pip, npmMotores de execução para scripts de rede e automação.Automação ClássicaNetmiko, Paramiko, NAPALM, AnsibleConectividade SSH/API, gerenciamento de configuração e multi-vendor.Frameworks de TestepyATS, GenieFramework da Cisco para testes de estado de rede e parsing de CLI.Cisco Modeling Labscmlmisc, virlutils (MCP)Integração e controle programático do CML2.Inteligência ArtificialOpenAI SDK, LangChainDesenvolvimento de agentes inteligentes e assistentes de rede (LLM).Análise de DadosPandas, NumPy, MatplotlibProcessamento, modelagem e visualização de dados de telemetria.🗂️ Estrutura de Arquivos do RepositórioAs instalações para os sistemas Unix-like (Linux/macOS) estão divididas em duas modalidades:Modo Virtual (venv) - Recomendado: Instala as dependências Python em um ambiente isolado, protegendo o Python nativo do sistema operacional.Modo Global (global): Instala as dependências diretamente no escopo do usuário/sistema (ideal para containers ou máquinas virtuais dedicadas).Todos os scripts estão padronizados e localizados na raiz do projeto:📂 setup-dev (Diretório Raiz)
+
 ├── 📄 README.md                             # Este guia de instruções
 │
 ├── 📄 setup_linux_netdevops.sh              # Linux: Setup isolado com ambiente virtual (Recomendado)
@@ -16,6 +17,7 @@ cd setup-dev
 │
 ├── 📄 setup_powershell_netdevops.ps1        # Windows: Setup via PowerShell + Chocolatey + venv
 └── 📄 cleanup_powershell_netdevops.ps1      # Windows: Remove ambiente virtual e limpa caches
+
 🔧 Guia de Uso Passo a Passo🐧 1. Ubuntu / WSL (Linux)Antes de executar, conceda permissão de execução aos scripts que irá utilizar:chmod +x setup_linux_netdevops*.sh cleanup_linux_netdevops.sh
 Opção A: Instalação com Ambiente Virtual (Altamente Recomendado)Cria um ambiente virtual isolado em ~/venv-devnet para evitar conflitos com o sistema../setup_linux_netdevops.sh
 Como ativar o ambiente após a instalação:source ~/venv-devnet/bin/activate
