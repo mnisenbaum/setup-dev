@@ -1,5 +1,5 @@
 🌐 DevNet, Automação & IA em Redes de ComputadoresEste repositório contém um conjunto completo de scripts de automação para preparar ambientes de desenvolvimento voltados para engenharia de redes, programabilidade, automação e Inteligência Artificial.Com suporte multiplataforma (Ubuntu/WSL, macOS e Windows), os scripts realizam o deploy de ferramentas essenciais como Python, Node.js, gerenciadores de pacotes e as principais bibliotecas do ecossistema Cisco DevNet e IA.🚀 Como Começar (Clonando o Repositório)Para utilizar os scripts em sua máquina local ou ambiente de laboratório, abra o terminal e clone o repositório utilizando os comandos abaixo:# Clone o repositório
-git clone [https://github.com/mnisenbaum/setup-dev.git](https://github.com/mnisenbaum/setup-dev.git)
+git clone https://github.com/mnisenbaum/setup-dev.git
 
 # Acesse a pasta do projeto
 cd setup-dev
