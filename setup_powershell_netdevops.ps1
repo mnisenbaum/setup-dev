@@ -54,12 +54,12 @@ foreach ($App in $Apps) {
 }
 
 # ------------------------------------------------------------------------------
-# 3. INSTALAÇÃO DE NERD FONTS (Crucial para ícones no terminal)
+# 3. INSTALAÇÃO DE NERD FONTS (Crucial para ícones no terminal) (OPCIONAL)
 # ------------------------------------------------------------------------------
-Write-Host "`n[3/7] Instalando Nerd Fonts para suporte a ícones no Terminal..." -ForegroundColor Yellow
+# Write-Host "`n[3/7] Instalando Nerd Fonts para suporte a ícones no Terminal..." -ForegroundColor Yellow
 # Instalando a fonte "Caskaydia Cove Nerd Font" (Variante da Cascadia da Microsoft com ícones)
-winget install --id Microsoft.CascadiaCode -e --silent
-winget install --id JanDeDobbeleer.OhMyPosh.Fonts.CaskaydiaCove -e --silent
+# winget install --id Microsoft.CascadiaCode -e --silent
+# winget install --id JanDeDobbeleer.OhMyPosh.Fonts.CaskaydiaCove -e --silent
 
 # ------------------------------------------------------------------------------
 # 4. CONFIGURAÇÃO DO PYTHON & PIP GLOBAL NO WINDOWS
