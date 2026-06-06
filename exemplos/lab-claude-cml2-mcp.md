@@ -19,6 +19,8 @@ O servidor MCP utilizado é o [cml-mcp](https://github.com/xorrkaz/cml-mcp), des
 
 ## Parte 1 — Configurando o Claude Desktop
 
+> ⚠️ **Atenção:** Nos blocos de código abaixo, os valores entre `< >` são placeholders e **devem ser substituídos** pelos dados do seu ambiente antes de executar. Exemplo: `<IP_DO_CML>` → `192.168.1.100`, `<usuario>` → `admin`, `<senha>` → `sua_senha`. Substitua `192.168.1.100` pelo endereço IP do seu CML2. Copiar e colar sem substituir causará erros.
+
 A configuração do MCP é feita pelo menu **Configurações** do Claude Desktop. Acesse com `Ctrl+,` e clique em **Desenvolvedor → Editar Config**. O Windows irá **selecionar o arquivo** `claude_desktop_config.json` no Explorer — abra-o no editor de texto de sua preferência (Notepad, VS Code, etc.).
 
 > É nessa mesma tela de **Desenvolvedor** que você vai verificar se a integração funcionou — o servidor deve aparecer com o badge **running** em azul após reiniciar o Claude Desktop.
@@ -27,7 +29,7 @@ A configuração do MCP é feita pelo menu **Configurações** do Claude Desktop
 
 Use esta opção para gerenciar labs, nodes e links via API do CML. **Não suporta execução de comandos CLI nos dispositivos.**
 
-Antes de configurar, teste se o `uvx` funciona no PowerShell:
+Antes de configurar, teste se o `uvx` funciona no PowerShell. **Substitua os valores entre `< >` antes de executar:**
 
 ```powershell
 $env:CML_URL="https://<IP_DO_CML>/"
@@ -37,7 +39,7 @@ $env:CML_VERIFY_SSL="false"
 uvx cml-mcp
 ```
 
-Se iniciar sem erros, acesse `Ctrl+,` → **Desenvolvedor → Editar Config**, abra o arquivo no editor de sua preferência e substitua o conteúdo por:
+Se iniciar sem erros, acesse `Ctrl+,` → **Desenvolvedor → Editar Config**, abra o arquivo no editor de sua preferência e substitua o conteúdo por. **Lembre-se de substituir os valores entre `< >` pelos dados do seu ambiente:**
 
 ```json
 {
@@ -83,6 +85,8 @@ uvx --version
 
 #### 2. Testar o cml-mcp com PyATS no WSL
 
+**Substitua os valores entre `< >` antes de executar:**
+
 ```bash
 CML_URL="https://<IP_DO_CML>/" \
 CML_USERNAME="<usuario>" \
@@ -95,7 +99,7 @@ Se aparecer `All tools registered successfully`, está funcionando.
 
 #### 3. Configurar via menu do Claude Desktop
 
-Acesse `Ctrl+,` → **Desenvolvedor → Editar Config**, abra o arquivo no editor de sua preferência e substitua o conteúdo por:
+Acesse `Ctrl+,` → **Desenvolvedor → Editar Config**, abra o arquivo no editor de sua preferência e substitua o conteúdo por. **Lembre-se de substituir os valores entre `< >` pelos dados do seu ambiente:**
 
 ```json
 {
@@ -259,6 +263,8 @@ O resultado será algo como `/Users/<seu_usuario>/.local/bin/uvx`. Anote esse va
 
 ### 3. Testar o cml-mcp com PyATS
 
+**Substitua os valores entre `< >` antes de executar:**
+
 ```bash
 CML_URL="https://<IP_DO_CML>/" \
 CML_USERNAME="<usuario>" \
@@ -271,7 +277,7 @@ Se aparecer `All tools registered successfully`, está funcionando.
 
 ### 4. Configurar via menu do Claude Desktop
 
-Acesse `Cmd+,` → **Desenvolvedor → Editar Config**, abra o arquivo no editor de sua preferência e substitua o conteúdo por:
+Acesse `Cmd+,` → **Desenvolvedor → Editar Config**, abra o arquivo no editor de sua preferência e substitua o conteúdo por. **Lembre-se de substituir os valores entre `< >` pelos dados do seu ambiente:**
 
 ```json
 {
