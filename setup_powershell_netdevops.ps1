@@ -81,19 +81,16 @@ Start-Process -FilePath "ollama" -ArgumentList "run deepseek-r1:1.5b" -NoNewWind
 Write-Host "Ollama configurado. O modelo será baixado em background." -ForegroundColor Cyan
 
 # ------------------------------------------------------------------------------
-# 7. CRIAÇÃO E CUSTOMIZAÇÃO DO PERFIL GLOBAL DO POWERSHELL ($PROFILE)
+# 7. CRIAÇÃO, BACKUP E CUSTOMIZAÇÃO DO PERFIL DO POWERSHELL ($PROFILE)
 # ------------------------------------------------------------------------------
 Write-Host "`n[7/7] Gerando e injetando configurações no perfil do usuário ($PROFILE)..." -ForegroundColor Yellow
 
-if (!(Test-Path -Path $PROFILE)) {
-    New-Item -ItemType File -Path $PROFILE -Force | Out-Null
-}
+# Define o conteúdo que o ecossistema NetDevOps precisa injetar no perfil
+$NetDevOpsSettings = @"
 
-$ProfileContent = @"
 # ==============================================================================
-# PERFIL NETDEVOPS CUSTOMIZADO - AGENTE AUTOMAÇÃO & IA
+# BLOCO NETDEVOPS - AGENTE AUTOMAÇÃO & IA (INJETADO AUTOMATICAMENTE)
 # ==============================================================================
-
 Import-Module PSReadLine
 Import-Module Terminal-Icons
 
@@ -109,9 +106,39 @@ function docker_wsl { wsl docker }
 
 Write-Host "🚀 Ambiente Windows DevNet Carregado com Sucesso!" -ForegroundColor Green
 Write-Host "🤖 IA Pronta: Ollama local operando no background." -ForegroundColor Blue
+# ==============================================================================
 "@
 
-Set-Content -Path $PROFILE -Value $ProfileContent
+# Cenário A: O arquivo de perfil já existe? Vamos proteger os dados do aluno
+if (Test-Path -Path $PROFILE) {
+    # 1. Cria um arquivo de backup com timestamp na mesma pasta do perfil
+    $Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+    $BackupPath = "$PROFILE.bak_$Timestamp"
+    Copy-Item -Path $PROFILE -Destination $BackupPath -Force
+    Write-Host "💾 Backup do perfil existente criado em: $BackupPath" -ForegroundColor Version
+
+    # 2. Verifica se o bloco NetDevOps já foi injetado antes para evitar duplicidade no arquivo
+    $ProfileContent = Get-Content -Path $PROFILE -Raw
+    if ($ProfileContent -match "BLOCO NETDEVOPS") {
+        Write-Host "ℹ️ As configurações de NetDevOps já constam no seu perfil. Pulando anexo." -ForegroundColor Cyan
+    } else {
+        # 3. Faz o APPEND de forma segura injetando uma quebra de linha antes
+        Add-Content -Path $PROFILE -Value "`n$NetDevOpsSettings"
+        Write-Host "➕ Configurações de NetDevOps anexadas ao perfil existente com sucesso!" -ForegroundColor Green
+    }
+} 
+# Cenário B: A máquina é nova ou o aluno nunca usou o perfil do PowerShell
+else {
+    # 1. Garante que a pasta oculta do perfil (geralmente em Documents\WindowsPowerShell) exista
+    $ProfileDirectory = Split-Path -Path $PROFILE
+    if (!(Test-Path -Path $ProfileDirectory)) {
+        New-Item -ItemType Directory -Path $ProfileDirectory -Force | Out-Null
+    }
+    
+    # 2. Cria o arquivo do zero com as configurações básicas
+    Set-Content -Path $PROFILE -Value $NetDevOpsSettings
+    Write-Host "✨ Novo perfil criado do zero com sucesso!" -ForegroundColor Green
+}
 
 # ------------------------------------------------------------------------------
 # VALIDAÇÃO FINAL
