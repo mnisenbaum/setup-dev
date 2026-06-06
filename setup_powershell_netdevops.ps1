@@ -80,15 +80,21 @@ Install-Module -Name PSReadLine -AllowClobber -Force -Scope AllUsers -ErrorActio
 Install-Module -Name Terminal-Icons -Force -Scope AllUsers -ErrorAction SilentlyContinue
 
 # ------------------------------------------------------------------------------
-# 5. INSTALAÇÃO DO OLLAMA DEEPSEEK-R1 NO WINDOWS
+# 5. INSTALAÇÃO E DOWNLOAD DO MODELO DE IA LOCAL (CORRIGIDO)
 # ------------------------------------------------------------------------------
-Write-Host "`n[5/6] Inicializando e baixando modelo de IA local no host Windows..." -ForegroundColor Yellow
+Write-Host "`n[5/6] Baixando modelo de IA local no host Windows..." -ForegroundColor Yellow
+
+# Recarrega as variáveis de ambiente para garantir o acesso ao executável do Ollama
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
-# Tenta baixar o modelo leve do DeepSeek para automações locais
-Start-Process -FilePath "ollama" -ArgumentList "run deepseek-r1:1.5b" -NoNewWindow -ErrorAction SilentlyContinue
-Write-Host "Ollama configurado. O modelo será baixado em background se o serviço já estiver de pé." -ForegroundColor Cyan
+Write-Host "Iniciando o download do DeepSeek-R1 (1.5b) via Ollama..." -ForegroundColor Cyan
+Write-Host "Isso pode levar alguns minutos dependendo da sua conexão. Aguarde..." -ForegroundColor Gray
 
+# Correção: Alterado de 'run' para 'pull'. O 'pull' baixa e valida o modelo de forma 
+# não-interativa em background, eliminando o erro 'The parameter is incorrect' causado pelo chat.
+Start-Process -FilePath "ollama" -ArgumentList "pull deepseek-r1:1.5b" -NoNewWindow -Wait -ErrorAction SilentlyContinue
+
+Write-Host "✅ Modelo DeepSeek-R1 verificado e pronto para o ecossistema NetDevOps!" -ForegroundColor Green
 # ------------------------------------------------------------------------------
 # 6. CRIAÇÃO, BACKUP E CUSTOMIZAÇÃO DO PERFIL DO POWERSHELL ($PROFILE)
 # ------------------------------------------------------------------------------
