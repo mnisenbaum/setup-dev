@@ -212,15 +212,6 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 - Baixa o modelo **DeepSeek-R1 (1.5b)** no Ollama em background
 - Gera um `$PROFILE` customizado com aliases Linux (`ll`, `grep`) e mensagem de boas-vindas
 
-#### Após a instalação — Configure a fonte no Windows Terminal
-
-Para que os ícones apareçam corretamente:
-
-1. Abra o Windows Terminal → `Ctrl + ,` (Configurações)
-2. Vá em **Perfis → Padrões → Aparência**
-3. Altere a **Fonte** para: `CaskaydiaCove Nerd Font`
-4. Salve e reinicie o terminal
-
 ---
 
 ## 🧹 Desinstalação e Rollback
