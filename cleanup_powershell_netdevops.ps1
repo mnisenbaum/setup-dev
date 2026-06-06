@@ -24,15 +24,15 @@ Write-Host "====================================================================
 # ------------------------------------------------------------------------------
 Write-Host "`n[1/4] Desinstalando ferramentas de desenvolvimento..." -ForegroundColor Yellow
 
+# Lista limpa: Oh My Posh e fontes removidos do fluxo de desinstalação
 $AppsToRemove = @(
-    "JanDeDobbeleer.OhMyPosh",
-    "JanDeDobbeleer.OhMyPosh.Fonts.CaskaydiaCove",
     "Ollama.Ollama"
-    # Nota: Python, Git, VS Code e Node.js foram omitidos para evitar quebrar outros projetos.
-    # Caso queira remover o Python instalado pelo script anterior, descomente as linhas abaixo:
+    # Nota: Python, Git, VS Code e Node.js foram omitidos para evitar quebrar outros projetos do usuário.
+    # Caso queira remover tudo instalado pelo script anterior, descomente as linhas abaixo:
     # "Python.Python.3.11",
     # "Git.Git",
-    # "Nodejs.Nodejs.LTS"
+    # "Nodejs.Nodejs.LTS",
+    # "Microsoft.VisualStudioCode"
 )
 
 foreach ($App in $AppsToRemove) {
@@ -43,10 +43,13 @@ foreach ($App in $AppsToRemove) {
 # ------------------------------------------------------------------------------
 # 2. REMOÇÃO DOS MÓDULOS DO POWERSHELL
 # ------------------------------------------------------------------------------
-Write-Host "`n[2/4] Removendo módulos do PowerShell (Terminal-Icons e PSReadLine)..." -ForegroundColor Yellow
+Write-Host "`n[2/4] Removendo módulos do PowerShell (Terminal-Icons)..." -ForegroundColor Yellow
 
-# PSReadLine não pode ser totalmente removido se estiver em uso, mas limpamos o escopo
+# Remove o módulo de ícones do terminal instalado pelo setup
 Uninstall-Module -Name Terminal-Icons -Force -ErrorAction SilentlyContinue
+
+# Nota: PSReadLine é um módulo nativo do PowerShell moderno, mantemos ele intacto 
+# e apenas removemos suas customizações através da limpeza do perfil abaixo.
 
 # ------------------------------------------------------------------------------
 # 3. RESTAURAÇÃO / LIMPEZA DO PERFIL ($PROFILE)
@@ -54,9 +57,28 @@ Uninstall-Module -Name Terminal-Icons -Force -ErrorAction SilentlyContinue
 Write-Host "`n[3/4] Removendo customizações do arquivo de Perfil..." -ForegroundColor Yellow
 
 if (Test-Path -Path $PROFILE) {
-    # Remove o arquivo de perfil completamente para restaurar o comportamento padrão do PowerShell
-    Remove-Item -Path $PROFILE -Force
-    Write-Host "Arquivo de perfil ($PROFILE) deletado com sucesso." -ForegroundColor Cyan
+    $ProfileContent = Get-Content -Path $PROFILE -Raw
+
+    # Se o perfil foi gerado de forma combinada (Append), removemos apenas o bloco NetDevOps
+    if ($ProfileContent -match "# ==============================================================================\s*# BLOCO NETDEVOPS") {
+        Write-Host "Encontrado bloco específico de NetDevOps. Removendo do seu perfil..." -ForegroundColor Cyan
+        # Expressão regular para capturar e remover exatamente o bloco injetado pelo setup
+        $CleanedContent = $ProfileContent -replace "(?s)# ==============================================================================\s*# BLOCO NETDEVOPS.*?# ==============================================================================", ""
+        
+        # Se o arquivo resultante estiver vazio ou apenas com linhas em branco, deletamos o arquivo
+        if ([string]::IsNullOrWhiteSpace($CleanedContent)) {
+            Remove-Item -Path $PROFILE -Force
+            Write-Host "Arquivo de perfil limpo e removido por estar vazio." -ForegroundColor Cyan
+        } else {
+            Set-Content -Path $PROFILE -Value $CleanedContent.Trim()
+            Write-Host "Configurações de NetDevOps removidas. Suas outras configurações pessoais foram preservadas!" -ForegroundColor Green
+        }
+    } 
+    # Se o perfil continha apenas as nossas configurações ou era a versão antiga estruturada do zero, remove por completo
+    else {
+        Remove-Item -Path $PROFILE -Force
+        Write-Host "Arquivo de perfil padrão do laboratório ($PROFILE) deletado com sucesso." -ForegroundColor Cyan
+    }
 } else {
     Write-Host "Nenhum arquivo de perfil encontrado para remover." -ForegroundColor Cyan
 }
@@ -65,7 +87,7 @@ if (Test-Path -Path $PROFILE) {
 # 4. LIMPEZA DE VARIÁVEIS DE AMBIENTE DA SESSÃO ATUAL
 # ------------------------------------------------------------------------------
 Write-Host "`n[4/4] Atualizando variáveis de ambiente do terminal..." -ForegroundColor Yellow
-# Força o PATH a voltar ao que está salvo no sistema, ignorando alterações temporárias da sessão
+# Força o PATH a voltar ao que está salvo de forma persistente no sistema
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
 # ------------------------------------------------------------------------------
@@ -74,6 +96,6 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 Write-Host "`n======================================================================" -ForegroundColor Red
 Write-Host "🎉 AMBIENTE REMOVIDO! POWERSHELL RESTAURADO AO PADRÃO." -ForegroundColor Green
 Write-Host "======================================================================" -ForegroundColor Red
-Write-Host "O Oh My Posh, a Nerd Font, o Ollama e as customizações foram removidos."
-Write-Host "Abra uma nova janela do PowerShell e ele voltará ao visual original de fábrica."
+Write-Host "O Ollama, o Terminal-Icons e as customizações de autocomplete/aliases foram removidos."
+Write-Host "Abra uma nova janela do PowerShell e ele voltará ao comportamento original."
 Write-Host "======================================================================" -ForegroundColor Red
