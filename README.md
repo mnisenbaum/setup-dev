@@ -206,7 +206,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 #### O que o script faz no Windows?
 
 - Instala **Python 3.11**, **Git**, **Node.js LTS**, **VS Code** e **Ollama** via Winget
-- Instala **Oh My Posh** + **CaskaydiaCove Nerd Font** para um terminal com ícones
+- OPCIONAL - Instala **Oh My Posh** + **CaskaydiaCove Nerd Font** para um terminal com ícones (está desativado por padrão)
 - Configura **PSReadLine** com autocomplete preditivo (seta `→` aceita sugestão do histórico)
 - Instala **Terminal-Icons** para exibir ícones coloridos no `ls`/`dir`
 - Baixa o modelo **DeepSeek-R1 (1.5b)** no Ollama em background
