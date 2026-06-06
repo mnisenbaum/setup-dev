@@ -12,7 +12,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 echo -e "${BLUE}======================================================================${NC}"
-echo -e "${GREEN}    Preparando macOS para NetDevOps, CML2 (MCP) e IA + Ollama Local ${NC}"
+echo -e "${GREEN}  Preparando macOS para NetDevOps, CML2 (MCP) e IA + Ollama Local v0.9 ${NC}"
 echo -e "${BLUE}======================================================================${NC}"
 
 # No Mac, não precisamos rodar o script como sudo/root. O Homebrew proíbe isso.
@@ -38,6 +38,18 @@ if ! command -v brew &> /dev/null; then
 else
     echo -e "${GREEN}✓ Homebrew já está instalado.${NC}"
     brew update
+fi
+
+# ------------------------------------------------------------------------------
+# DISCLAIMER INTERATIVO
+# ------------------------------------------------------------------------------
+echo -e "\n${YELLOW}AVISO: Este script executará alterações no sistema e instalará pacotes via Homebrew.${NC}"
+echo -e "${GREEN}✅ Este é o script RECOMENDADO: as ferramentas serão instaladas em ambiente virtual isolado (venv).${NC}"
+echo -e "${YELLOW}Leia o DISCLAIMER completo em README.md antes de continuar.${NC}"
+read -p "\nDeseja continuar por sua conta e risco? (s/N): " __confirm
+if [[ ! "${__confirm}" =~ ^[Ss]$ ]]; then
+    echo -e "${RED}Operação cancelada pelo usuário. Nenhuma alteração será feita.${NC}"
+    exit 1
 fi
 
 # ------------------------------------------------------------------------------

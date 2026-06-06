@@ -12,8 +12,20 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 echo -e "${BLUE}======================================================================${NC}"
-echo -e "${GREEN}    Preparando WSL para NetDevOps, CML2 (MCP) e IA + Ollama Local ${NC}"
+echo -e "${GREEN}  Preparando WSL para NetDevOps, CML2 (MCP) e IA + Ollama Local v0.9 ${NC}"
 echo -e "${BLUE}======================================================================${NC}"
+
+# ------------------------------------------------------------------------------
+# DISCLAIMER INTERATIVO
+# ------------------------------------------------------------------------------
+echo -e "\n${YELLOW}AVISO: Este script executará alterações no sistema (instala pacotes e cria ambientes).${NC}"
+echo -e "${GREEN}✅ Este é o script RECOMENDADO: as ferramentas serão instaladas em ambiente virtual isolado (venv).${NC}"
+echo -e "${YELLOW}Leia o DISCLAIMER completo em README.md antes de continuar.${NC}"
+read -p "\nDeseja continuar por sua conta e risco? (s/N): " __confirm
+if [[ ! "${__confirm}" =~ ^[Ss]$ ]]; then
+  echo -e "${RED}Operação cancelada pelo usuário. Nenhuma alteração será feita.${NC}"
+  exit 1
+fi
 
 if [ "$EUID" -eq 0 ]; then
   echo -e "${RED}[ERRO] Execute como usuário normal (com sudo), não como root direto.${NC}"

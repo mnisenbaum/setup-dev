@@ -12,7 +12,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 echo -e "${BLUE}======================================================================${NC}"
-echo -e "${GREEN}    Configurando Ambiente Global NetDevOps, CML2 e IA no Mac (Sem Venv) ${NC}"
+echo -e "${GREEN}  Configurando Ambiente Global NetDevOps, CML2 e IA no Mac (v0.9)     ${NC}"
 echo -e "${BLUE}======================================================================${NC}"
 
 # O Homebrew não permite e não deve ser executado como root/sudo
@@ -38,6 +38,20 @@ if ! command -v brew &> /dev/null; then
 else
     echo -e "${GREEN}✓ Homebrew já está instalado.${NC}"
     brew update
+fi
+
+# ------------------------------------------------------------------------------
+# DISCLAIMER INTERATIVO (GLOBAL)
+# ------------------------------------------------------------------------------
+echo -e "\n${YELLOW}AVISO: Este script fará instalações GLOBAIS via Homebrew e pode afetar o sistema.${NC}"
+echo -e "${YELLOW}⚠️  Este script é recomendado APENAS para máquinas virtuais de estudo/teste ou computadores sem nada instalado.${NC}"
+echo -e "${RED}🚫 NUNCA execute este script em máquinas de produção ou máquinas pessoais de uso diário.${NC}"
+echo -e "${CYAN}💡 Em máquinas pessoais, prefira: ./setup_mac_netdevops.sh (ambiente virtual isolado).${NC}"
+echo -e "${YELLOW}Leia o DISCLAIMER completo em README.md antes de continuar.${NC}"
+read -p "\nDeseja continuar por sua conta e risco? (s/N): " __confirm
+if [[ ! "${__confirm}" =~ ^[Ss]$ ]]; then
+    echo -e "${RED}Operação cancelada pelo usuário. Nenhuma alteração será feita.${NC}"
+    exit 1
 fi
 
 # ------------------------------------------------------------------------------

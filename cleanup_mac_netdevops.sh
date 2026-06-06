@@ -5,7 +5,20 @@
 # Remove o ambiente virtual e pacotes específicos do Homebrew
 # ====================================================================
 
+echo "====================================================================="
+echo "   🧹 Limpeza do Ambiente macOS - NetDevOps v0.9                    "
+echo "====================================================================="
 echo "🧹 Iniciando a limpeza do ambiente macOS..."
+
+# ------------------------------------------------------------------------------
+# DISCLAIMER INTERATIVO
+# ------------------------------------------------------------------------------
+echo "\nAVISO: Este script executará ações de remoção no seu Mac. Execute por sua conta e risco."
+read -p "Deseja continuar por sua conta e risco? (s/N): " __confirm
+if [[ ! "${__confirm}" =~ ^[Ss]$ ]]; then
+    echo "Operação cancelada pelo usuário. Nenhuma alteração será feita."
+    exit 1
+fi
 
 # 1. Desativar o ambiente virtual se ele estiver ativo
 if [[ "$VIRTUAL_ENV" != "" ]]; then

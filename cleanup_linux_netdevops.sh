@@ -5,7 +5,20 @@
 # Remove o ambiente virtual, bibliotecas e pacotes DevNet/IA
 # ====================================================================
 
+echo "====================================================================="
+echo "   🧹 Limpeza do Ambiente Ubuntu/WSL - NetDevOps v0.9               "
+echo "====================================================================="
 echo "🧹 Iniciando a limpeza do ambiente Ubuntu/WSL..."
+
+# ------------------------------------------------------------------------------
+# DISCLAIMER INTERATIVO
+# ------------------------------------------------------------------------------
+echo "\nAVISO: Este script executará ações de remoção. Execute por sua conta e risco."
+read -p "Deseja continuar por sua conta e risco? (s/N): " __confirm
+if [[ ! "${__confirm}" =~ ^[Ss]$ ]]; then
+    echo "Operação cancelada pelo usuário. Nenhuma alteração será feita."
+    exit 1
+fi
 
 # 1. Desativar o ambiente virtual se ele estiver ativo nesta sessão
 if [[ "$VIRTUAL_ENV" != "" ]]; then

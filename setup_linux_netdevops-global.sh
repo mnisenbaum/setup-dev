@@ -12,8 +12,22 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 echo -e "${BLUE}======================================================================${NC}"
-echo -e "${GREEN}    Configurando Ambiente Global NetDevOps, CML2 e IA (Sem Venv) ${NC}"
+echo -e "${GREEN}  Configurando Ambiente Global NetDevOps, CML2 e IA (Sem Venv) v0.9  ${NC}"
 echo -e "${BLUE}======================================================================${NC}"
+
+# ------------------------------------------------------------------------------
+# DISCLAIMER INTERATIVO (GLOBAL)
+# ------------------------------------------------------------------------------
+echo -e "\n${YELLOW}AVISO: Este script fará instalações GLOBAIS no sistema (pode afetar outros projetos).${NC}"
+echo -e "${YELLOW}⚠️  Este script é recomendado APENAS para máquinas virtuais de estudo/teste ou computadores sem nada instalado.${NC}"
+echo -e "${RED}🚫 NUNCA execute este script em máquinas de produção ou máquinas pessoais de uso diário.${NC}"
+echo -e "${CYAN}💡 Em máquinas pessoais, prefira: ./setup_linux_netdevops.sh (ambiente virtual isolado).${NC}"
+echo -e "${YELLOW}Leia o DISCLAIMER completo em README.md antes de continuar.${NC}"
+read -p "\nDeseja continuar por sua conta e risco? (s/N): " __confirm
+if [[ ! "${__confirm}" =~ ^[Ss]$ ]]; then
+  echo -e "${RED}Operação cancelada pelo usuário. Nenhuma alteração será feita.${NC}"
+  exit 1
+fi
 
 if [ "$EUID" -eq 0 ]; then
   echo -e "${RED}[ERRO] Execute como usuário normal (com sudo), não como root direto.${NC}"

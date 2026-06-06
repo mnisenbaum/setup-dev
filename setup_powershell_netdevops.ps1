@@ -17,10 +17,16 @@ if (-not $AdminCheck) {
 # Define a política de execução para permitir rodar o script e instalações na sessão atual
 Set-ExecutionPolicy Bypass -Scope Process -Force
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-
 Write-Host "======================================================================" -ForegroundColor Cyan
-Write-Host "     Configurando Ambiente Local Windows PowerShell para NetDevOps   " -ForegroundColor Green
+Write-Host "  Configurando Ambiente Local Windows PowerShell para NetDevOps v0.9 " -ForegroundColor Green
 Write-Host "======================================================================" -ForegroundColor Cyan
+Write-Host "`nAVISO: Este script fará alterações na máquina (instala pacotes e configura o ambiente)." -ForegroundColor Yellow
+Write-Host "Leia o DISCLAIMER completo em README.md antes de continuar." -ForegroundColor Yellow
+$ans = Read-Host "Deseja continuar por sua conta e risco? (s/N)"
+if ($ans -ne 's' -and $ans -ne 'S') {
+    Write-Host "Operação cancelada pelo usuário. Nenhuma alteração será feita." -ForegroundColor Red
+    Exit
+}
 
 # ------------------------------------------------------------------------------
 # 1. ATUALIZAÇÃO DO GERENCIADOR DE PACOTES (WINGET)

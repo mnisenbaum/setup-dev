@@ -16,8 +16,17 @@ if (-not $AdminCheck) {
 Set-ExecutionPolicy Bypass -Scope Process -Force
 
 Write-Host "======================================================================" -ForegroundColor Red
-Write-Host "     Removendo Ambiente Local Windows PowerShell (Rollback)          " -ForegroundColor Yellow
+Write-Host "   Removendo Ambiente Local Windows PowerShell (Rollback) v0.9       " -ForegroundColor Yellow
 Write-Host "======================================================================" -ForegroundColor Red
+
+# DISCLAIMER INTERATIVO
+Write-Host "\nAVISO: Este script removerá customizações e arquivos do ambiente NetDevOps." -ForegroundColor Yellow
+Write-Host "Leia o DISCLAIMER completo em README.md antes de continuar." -ForegroundColor Yellow
+$ans = Read-Host "Deseja continuar por sua conta e risco? (s/N)"
+if ($ans -ne 's' -and $ans -ne 'S') {
+    Write-Host "Operação cancelada pelo usuário. Nenhuma alteração será feita." -ForegroundColor Red
+    Exit
+}
 
 # ------------------------------------------------------------------------------
 # 1. REMOÇÃO DOS PROGRAMAS INSTALADOS VIA WINGET

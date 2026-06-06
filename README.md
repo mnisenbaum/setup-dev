@@ -1,4 +1,4 @@
-# 🌐 DevNet, Automação & IA em Redes de Computadores
+# 🌐 DevNet, Automação & IA em Redes de Computadores `v0.9`
 
 > Scripts multiplataforma para preparar um ambiente completo de **NetDevOps**, **CML2 (MCP)** e **Inteligência Artificial Local** em poucos minutos — seja no Linux, macOS ou Windows.
 
