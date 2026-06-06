@@ -172,7 +172,7 @@ chmod +x setup_mac_netdevops*.sh cleanup_mac_netdevops.sh
 
 **Opção A: Ambiente Virtual (Recomendado)**
 
-Cria um workspace isolado em `~/netdevops_labs/.venv` usando Python 3.12 do Homebrew.
+Cria um workspace isolado em `~/netdevops_labs/.venv` usando Python 3.13 do Homebrew.
 
 ```bash
 ./setup_mac_netdevops.sh
@@ -216,9 +216,9 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 .\setup_powershell_netdevops.ps1
 ```
 
-#### O que o script faz no Windows?
+-#### O que o script faz no Windows?
 
-- Instala **Python 3.11**, **Git**, **Node.js LTS**, **VS Code** e **Ollama** via Winget
+- Instala **Python 3.13**, **Git**, **Node.js LTS**, **VS Code** e **Ollama** via Winget
 - Instala **Oh My Posh** + **CaskaydiaCove Nerd Font** para um terminal com ícones
 - Configura **PSReadLine** com autocomplete preditivo (seta `→` aceita sugestão do histórico)
 - Instala **Terminal-Icons** para exibir ícones coloridos no `ls`/`dir`

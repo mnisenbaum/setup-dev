@@ -44,7 +44,8 @@ fi
 # 2. INSTALAÇÃO DE DEPENDÊNCIAS DO SISTEMA VIA BREW
 # ------------------------------------------------------------------------------
 echo -e "\n${YELLOW}[2/7] Instalando ferramentas base e utilitários...${NC}"
-brew install wget curl git unzip jq zstd python@3.12 node xz
+# Pedimos explicitamente o Python 3.13 via Homebrew
+brew install wget curl git unzip jq zstd python@3.13 node xz
 
 # ------------------------------------------------------------------------------
 # 3. INSTALAÇÃO DO OLLAMA (IA Local otimizada para Mac)

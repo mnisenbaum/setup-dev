@@ -39,7 +39,7 @@ Write-Host "`n[2/6] Instalando ferramentas base de desenvolvimento (Python, Git,
 
 # Lista de aplicativos essenciais via Winget (Oh My Posh removido com sucesso)
 $Apps = @(
-    "Python.Python.3.11",           # Python nativo estável para bibliotecas de redes
+    "Python.Python.3.13",           # Python nativo estável para bibliotecas de redes (3.13)
     "Git.Git",                     # Git SCM / Git Bash
     "Nodejs.Nodejs.LTS",           # Node e NPM para ferramentas de ecossistema JS
     "Ollama.Ollama",               # Ollama nativo do Windows (Garante IA Local no host)

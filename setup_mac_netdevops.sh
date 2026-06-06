@@ -44,7 +44,8 @@ fi
 # 2. INSTALAÇÃO DE DEPENDÊNCIAS ESSENCIAIS VIA BREW
 # ------------------------------------------------------------------------------
 echo -e "\n${YELLOW}[2/8] Instalando ferramentas base e utilitários...${NC}"
-brew install wget curl git unzip jq zstd python@3.12 node xz
+# Pedimos explicitamente o Python 3.13 pelo Homebrew
+brew install wget curl git unzip jq zstd python@3.13 node xz
 
 # ------------------------------------------------------------------------------
 # 3. INSTALAÇÃO DO OLLAMA (IA Local no Mac - Extremamente otimizado para chips M-Series)
@@ -113,7 +114,7 @@ WORKDIR="$HOME/netdevops_labs"
 mkdir -p "$WORKDIR"
 cd "$WORKDIR"
 
-uv venv .venv --python 3.12
+uv venv .venv --python 3.13
 source .venv/bin/activate
 uv pip install netmiko napalm pyats genie virl2-client openai langchain crewai openclaw mcp "cml-mcp[pyats]"
 

@@ -29,7 +29,7 @@ $AppsToRemove = @(
     "Ollama.Ollama"
     # Nota: Python, Git, VS Code e Node.js foram omitidos para evitar quebrar outros projetos do usuário.
     # Caso queira remover tudo instalado pelo script anterior, descomente as linhas abaixo:
-    # "Python.Python.3.11",
+    # "Python.Python.3.13",
     # "Git.Git",
     # "Nodejs.Nodejs.LTS",
     # "Microsoft.VisualStudioCode"
