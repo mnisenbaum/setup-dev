@@ -2,7 +2,7 @@
 .SYNOPSIS
     Script de Configuração NetDevOps para PowerShell (Windows Nativo)
     Alvo: Windows 10 / 11 (PowerShell 5.1 ou PowerShell 7+)
-    Garante ferramentas locais de desenvolvimento, IA e embelezamento do terminal.
+    Garante ferramentas locais de desenvolvimento, IA e produtividade no terminal.
 #>
 
 # ------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ Write-Host "====================================================================
 # ------------------------------------------------------------------------------
 # 1. ATUALIZAÇÃO DO GERENCIADOR DE PACOTES (WINGET)
 # ------------------------------------------------------------------------------
-Write-Host "`n[1/7] Validando e atualizando o Windows Package Manager (Winget)..." -ForegroundColor Yellow
+Write-Host "`n[1/6] Validando e atualizando o Windows Package Manager (Winget)..." -ForegroundColor Yellow
 $WingetCheck = Get-Command winget -ErrorAction SilentlyContinue
 if (-not $WingetCheck) {
     Write-Host "Winget não encontrado. Tentando instalar via AppX..." -ForegroundColor Red
@@ -33,17 +33,17 @@ if (-not $WingetCheck) {
 }
 
 # ------------------------------------------------------------------------------
-# 2. INSTALAÇÃO DE DEPENDÊNCIAS, DEV TOOLS E PYTHON NATIVO (CORRIGIDO)
+# 2. INSTALAÇÃO DE DEPENDÊNCIAS, DEV TOOLS E PYTHON NATIVO
 # ------------------------------------------------------------------------------
-Write-Host "`n[2/7] Instalando ferramentas base de desenvolvimento (Python, Git, Node, etc)..." -ForegroundColor Yellow
+Write-Host "`n[2/6] Instalando ferramentas base de desenvolvimento (Python, Git, Node, etc)..." -ForegroundColor Yellow
 
+# Lista de aplicativos essenciais via Winget (Oh My Posh removido com sucesso)
 $Apps = @(
-    "Python.Python.3.11",           
-    "Git.Git",                     
-    "Nodejs.Nodejs.LTS",           
-    "Ollama.Ollama",               
-    "Microsoft.VisualStudioCode",  
-    "JanDeDobbeleer.OhMyPosh"      
+    "Python.Python.3.11",           # Python nativo estável para bibliotecas de redes
+    "Git.Git",                     # Git SCM / Git Bash
+    "Nodejs.Nodejs.LTS",           # Node e NPM para ferramentas de ecossistema JS
+    "Ollama.Ollama",               # Ollama nativo do Windows (Garante IA Local no host)
+    "Microsoft.VisualStudioCode"   # VS Code
 )
 
 foreach ($App in $Apps) {
@@ -52,40 +52,49 @@ foreach ($App in $Apps) {
 }
 
 # ------------------------------------------------------------------------------
-# 4. CONFIGURAÇÃO DO PYTHON & PIP GLOBAL NO WINDOWS
+# 3. CONFIGURAÇÃO DO PYTHON & PIP GLOBAL NO WINDOWS
 # ------------------------------------------------------------------------------
-Write-Host "`n[4/7] Atualizando PIP e configurando ambiente Python no Windows..." -ForegroundColor Yellow
+Write-Host "`n[3/6] Atualizando PIP e configurando ambiente Python no Windows..." -ForegroundColor Yellow
+# Recarrega a variável PATH da máquina para garantir que o Python recém-instalado seja visto
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
+# Atualiza o PIP nativo
 python -m pip install --upgrade pip --quiet
 
+# Instalação das bibliotecas de rede essenciais nativas no Windows (Facilita scripts locais rápidos)
 Write-Host "Instalando bibliotecas de Redes e IA de forma nativa..." -ForegroundColor Cyan
 pip install netmiko paramiko requests urllib3 openai langchain crewai mcp --quiet
 
 # ------------------------------------------------------------------------------
-# 5. INSTALAÇÃO DE MÓDULOS DO POWERSHELL (PSReadLine & Terminal-Icons)
+# 4. INSTALAÇÃO DE MÓDULOS DO POWERSHELL (PSReadLine & Terminal-Icons)
 # ------------------------------------------------------------------------------
-Write-Host "`n[5/7] Instalando módulos de produtividade e auto-complete para o PowerShell..." -ForegroundColor Yellow
+Write-Host "`n[4/6] Instalando módulos de produtividade e auto-complete para o PowerShell..." -ForegroundColor Yellow
 
+# Forçar o uso do repositório PSGallery atualizado
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+
+# Instala PSReadLine para Autocomplete preditivo (Estilo terminal ZSH/Fish)
 Install-Module -Name PSReadLine -AllowClobber -Force -Scope AllUsers -ErrorAction SilentlyContinue
+
+# Instala Terminal-Icons para mostrar ícones coloridos ao dar 'ls' ou 'dir'
 Install-Module -Name Terminal-Icons -Force -Scope AllUsers -ErrorAction SilentlyContinue
 
 # ------------------------------------------------------------------------------
-# 6. INSTALAÇÃO DO OLLAMA DEEPSEEK-R1 NO WINDOWS
+# 5. INSTALAÇÃO DO OLLAMA DEEPSEEK-R1 NO WINDOWS
 # ------------------------------------------------------------------------------
-Write-Host "`n[6/7] Inicializando e baixando modelo de IA local no host Windows..." -ForegroundColor Yellow
+Write-Host "`n[5/6] Inicializando e baixando modelo de IA local no host Windows..." -ForegroundColor Yellow
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
+# Tenta baixar o modelo leve do DeepSeek para automações locais
 Start-Process -FilePath "ollama" -ArgumentList "run deepseek-r1:1.5b" -NoNewWindow -ErrorAction SilentlyContinue
-Write-Host "Ollama configurado. O modelo será baixado em background." -ForegroundColor Cyan
+Write-Host "Ollama configurado. O modelo será baixado em background se o serviço já estiver de pé." -ForegroundColor Cyan
 
 # ------------------------------------------------------------------------------
-# 7. CRIAÇÃO, BACKUP E CUSTOMIZAÇÃO DO PERFIL DO POWERSHELL ($PROFILE)
+# 6. CRIAÇÃO, BACKUP E CUSTOMIZAÇÃO DO PERFIL DO POWERSHELL ($PROFILE)
 # ------------------------------------------------------------------------------
-Write-Host "`n[7/7] Gerando e injetando configurações no perfil do usuário ($PROFILE)..." -ForegroundColor Yellow
+Write-Host "`n[6/6] Gerando e injetando configurações no perfil do usuário ($PROFILE)..." -ForegroundColor Yellow
 
-# Define o conteúdo que o ecossistema NetDevOps precisa injetar no perfil
+# Bloco de configuração limpo (Sem nenhuma referência ao Oh My Posh)
 $NetDevOpsSettings = @"
 
 # ==============================================================================
@@ -94,10 +103,12 @@ $NetDevOpsSettings = @"
 Import-Module PSReadLine
 Import-Module Terminal-Icons
 
+# Configurações de Auto-Complete Inteligente (PSReadLine)
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle InlineView
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 
+# Aliases Úteis Estilo Linux/DevOps
 Set-Alias -Name ll -Value Get-ChildItem -ErrorAction SilentlyContinue
 Set-Alias -Name grep -Value Select-String
 
@@ -109,41 +120,39 @@ Write-Host "🤖 IA Pronta: Ollama local operando no background." -ForegroundCol
 # ==============================================================================
 "@
 
-# Cenário A: O arquivo de perfil já existe? Vamos proteger os dados do aluno
+# Se o arquivo de perfil já existe, criamos um backup e usamos a técnica de Append Seguro
 if (Test-Path -Path $PROFILE) {
-    # 1. Cria um arquivo de backup com timestamp na mesma pasta do perfil
     $Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
     $BackupPath = "$PROFILE.bak_$Timestamp"
     Copy-Item -Path $PROFILE -Destination $BackupPath -Force
-    Write-Host "💾 Backup do perfil existente criado em: $BackupPath" -ForegroundColor Version
+    Write-Host "💾 Backup do perfil existente criado em: $BackupPath" -ForegroundColor Cyan
 
-    # 2. Verifica se o bloco NetDevOps já foi injetado antes para evitar duplicidade no arquivo
     $ProfileContent = Get-Content -Path $PROFILE -Raw
     if ($ProfileContent -match "BLOCO NETDEVOPS") {
         Write-Host "ℹ️ As configurações de NetDevOps já constam no seu perfil. Pulando anexo." -ForegroundColor Cyan
     } else {
-        # 3. Faz o APPEND de forma segura injetando uma quebra de linha antes
         Add-Content -Path $PROFILE -Value "`n$NetDevOpsSettings"
         Write-Host "➕ Configurações de NetDevOps anexadas ao perfil existente com sucesso!" -ForegroundColor Green
     }
 } 
-# Cenário B: A máquina é nova ou o aluno nunca usou o perfil do PowerShell
+# Se o perfil não existia, cria do zero
 else {
-    # 1. Garante que a pasta oculta do perfil (geralmente em Documents\WindowsPowerShell) exista
     $ProfileDirectory = Split-Path -Path $PROFILE
     if (!(Test-Path -Path $ProfileDirectory)) {
         New-Item -ItemType Directory -Path $ProfileDirectory -Force | Out-Null
     }
-    
-    # 2. Cria o arquivo do zero com as configurações básicas
     Set-Content -Path $PROFILE -Value $NetDevOpsSettings
     Write-Host "✨ Novo perfil criado do zero com sucesso!" -ForegroundColor Green
 }
 
 # ------------------------------------------------------------------------------
-# VALIDAÇÃO FINAL
+# VALIDAÇÃO FINAL E INSTRUÇÕES AO USUÁRIO
 # ------------------------------------------------------------------------------
 Write-Host "`n======================================================================" -ForegroundColor Cyan
 Write-Host "🎉 POWERSHELL DA MÁQUINA HOSPEDEIRA CONFIGURADO COM SUCESSO!" -ForegroundColor Green
 Write-Host "======================================================================" -ForegroundColor Cyan
-Write-Host "Abra uma nova janela do PowerShell para aplicar as mudanças."
+Write-Host "Para concluir a experiência e visualizar os ícones corretamente:"
+Write-Host "1. Abra uma nova janela ou aba do PowerShell."
+Write-Host "2. O terminal manterá o prompt original padrão do Windows, porém com superpoderes."
+Write-Host "`nSua máquina host Windows agora está totalmente sincronizada com o poder do WSL!"
+Write-Host "======================================================================" -ForegroundColor Cyan
