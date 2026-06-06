@@ -4,8 +4,21 @@
 
 ---
 
+## ⚠️ Aviso Legal / Disclaimer
+
+> 🇧🇷 **Português**
+>
+> Os scripts disponibilizados neste repositório são fornecidos **"no estado em que se encontram"**, sem qualquer garantia expressa ou implícita. A execução destes scripts é feita **por sua própria conta e risco**. O autor não se responsabiliza por quaisquer danos, perdas de dados, instabilidades no sistema, conflitos de software ou qualquer outro problema que venha a ocorrer em decorrência direta ou indireta da utilização deste material. Antes de executar qualquer script em um ambiente de produção ou em uma máquina crítica, revise o código-fonte e certifique-se de que você compreende o que será instalado e modificado no seu sistema.
+
+> 🇺🇸 **English**
+>
+> The scripts provided in this repository are offered **"as is"**, without any express or implied warranty. Running these scripts is done **entirely at your own risk**. The author shall not be held liable for any damages, data loss, system instability, software conflicts, or any other issues arising directly or indirectly from the use of this material. Before executing any script in a production environment or on a critical machine, please review the source code and make sure you fully understand what will be installed and modified on your system.
+
+---
+
 ## 📋 Índice
 
+- [⚠️ Aviso Legal / Disclaimer](#️-aviso-legal--disclaimer)
 - [O que este repositório faz?](#-o-que-este-repositório-faz)
 - [Stack de ferramentas instaladas](#-stack-de-ferramentas-instaladas)
 - [Estrutura do repositório](#-estrutura-do-repositório)
@@ -206,11 +219,20 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 #### O que o script faz no Windows?
 
 - Instala **Python 3.11**, **Git**, **Node.js LTS**, **VS Code** e **Ollama** via Winget
-- OPCIONAL - Instala **Oh My Posh** + **CaskaydiaCove Nerd Font** para um terminal com ícones (está desativado por padrão)
+- Instala **Oh My Posh** + **CaskaydiaCove Nerd Font** para um terminal com ícones
 - Configura **PSReadLine** com autocomplete preditivo (seta `→` aceita sugestão do histórico)
 - Instala **Terminal-Icons** para exibir ícones coloridos no `ls`/`dir`
 - Baixa o modelo **DeepSeek-R1 (1.5b)** no Ollama em background
 - Gera um `$PROFILE` customizado com aliases Linux (`ll`, `grep`) e mensagem de boas-vindas
+
+#### Após a instalação — Configure a fonte no Windows Terminal
+
+Para que os ícones apareçam corretamente:
+
+1. Abra o Windows Terminal → `Ctrl + ,` (Configurações)
+2. Vá em **Perfis → Padrões → Aparência**
+3. Altere a **Fonte** para: `CaskaydiaCove Nerd Font`
+4. Salve e reinicie o terminal
 
 ---
 
